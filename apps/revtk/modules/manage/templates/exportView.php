@@ -5,7 +5,7 @@
   <div class="col-main col-box">
 
     <div class="app-header">
-      <h2><a href="Home">Home</a> <span>&raquo;</span> Manage flashcards</h2>
+      <h2><?php echo link_to('Home', 'home/index') ?> <span>&raquo;</span> Manage flashcards</h2>
       <div class="clear"></div>
     </div>
 

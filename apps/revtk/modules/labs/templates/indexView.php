@@ -1,4 +1,4 @@
-<?php use_helper('Form', 'Validation') ?>
+<?php use_helper('Links') ?>
 
 <div class="layout-home">
 
@@ -8,7 +8,7 @@
     <div class="col-box col-box-top content">
 
       <div class="app-header">
-        <h2>Kanji Labs</h2>
+        <h2><?php echo link_to('Home', 'home/index') ?> <span>&raquo;</span> Labs</h2>
         <div class="clearboth"></div>
       </div>
       
@@ -20,26 +20,20 @@
   </div>
 <?php endif; ?>
 
-  <div style="-moz-border-radius:10px;padding:10px;background:#0077d4;color:#fff;margin:0 0 1em;border-radius:10px;">
+  <div style="-moz-border-radius:5px;padding:10px;background:#0077D4;color:#fff;margin:0 0 1em;border-radius:5px;">
       <p> <strong>Welcome to the Reviewing the Kanji Labs!</strong></p>
       
-      <p> Here I will try out some ideas and with your feedback
-          I hope eventually some of these features will become permanent
-          on the website.</p>
+      <p> Here I will try out some ideas that may someday become permanent features of the website.
+          You are welcome to share ideas and give suggestions for this page, please <?php echo link_to_forum('use this topic', '/viewtopic.php?pid=97741', array('style' => 'color:yellow;')) ?>, thank you!
+      </p>
   </div>
       
       <h3>iVocab Shuffle™</h3>
 
-      <p> This ultra simplistic flashcard review mode is inspired by
-          Apple's iPod Shuffle. Press Start and then just press SPACE
-          to flip cards, indefinitely.
+      <p> This simple flashcard review mode is inspired by Apple's iPod Shuffle.
+          Click the Start button and then just press the SPACE key to flip cards.
       </p>
 
-      <p> This is meant to be an informal test which can expose you to new
-          words, and gradually get a better idea of the meaning of the
-          characters.
-      </p>
-      
       <p>
         <?php echo link_to('<span>Start iVocab Shuffle™!</span>', 'labs/review', array('class' => 'uiIBtn uiIBtnDefault')) ?>
       </p>

@@ -51,7 +51,7 @@ return array
   'autoload_classes'  => array
   (
     // other demo classes
-    '/^demo[A-Z]/' => 'apps/Core/lib'
+    '/^demo[A-Z]/' => 'apps/core/lib'
   ),
 
   /**

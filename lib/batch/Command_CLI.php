@@ -3,8 +3,10 @@
  * A base class for creating command line tools, with a consistent interface.
  * 
  * Common options:
- *   --v         Verbose mode
- *   --help      Show help
+ *   --v            Verbose mode
+ *   --help         Show help
+ *   --app <app>    Sets application (changes the settings file, defaults to "revtk")
+ *   --env <env>    Sets environment (changes the environment, defaults to "dev")
  * 
  * Basic methods:
  *   getOption($name[, $default])     Return option, or default value, or throws an error
@@ -15,20 +17,16 @@
  *   getRelativePathFrom($path, $base)
  * 
  * TODO
- *   --app <app>       Sets application (changes the settings file, defaults to "revtk")
- *   --env <env>       Sets environment (changes the environment, defaults to "dev")
  * 
  * @author  Fabrice Denis
  */
 
 // This block of code is the bootstrap for Core based apps 
 define('CORE_ROOT_DIR',    realpath(dirname(__FILE__).'/../..'));
-define('CORE_APP',         'revtk');
-define('CORE_ENVIRONMENT', 'dev');
-define('CORE_DEBUG',       true);
-require_once(CORE_ROOT_DIR.'/apps/'.CORE_APP.'/config/config.php');
-$configuration = new revtkConfiguration(CORE_ENVIRONMENT, CORE_DEBUG, CORE_ROOT_DIR);
-coreContext::createInstance($configuration);
+
+// Defaults to use for --app and --env
+define('DEFAULT_APP',      'revtk');
+define('DEFAULT_ENV',      'dev');
 
 require_once(CORE_ROOT_DIR.'/lib/args/SimpleArgs.php');
 
@@ -76,9 +74,21 @@ class Command_CLI
       $this->showHelp();
       exit();
     }
-    
+
+    $coreApp = $this->getOption('app', DEFAULT_APP);
+    $coreEnv = $this->getOption('env', DEFAULT_ENV);
+
+    // Bootstrap framework
+    define('CORE_APP',         $coreApp);
+    define('CORE_ENVIRONMENT', $coreEnv);
+    define('CORE_DEBUG',       true);
+    require_once(CORE_ROOT_DIR.'/apps/'.CORE_APP.'/config/config.php');
+    $configurationClass = CORE_APP . 'Configuration';
+    $configuration = new $configurationClass(CORE_ENVIRONMENT, CORE_DEBUG, CORE_ROOT_DIR);
+    coreContext::createInstance($configuration);
+
     $this->isVerbose = $this->args->flag('v') !== false;
-    $this->verbose("Verbose: ON");
+    $this->verbose("Verbose: ON (CORE_APP '%s', CORE_ENVIRONMENT '%s')", CORE_APP, CORE_ENVIRONMENT);
   }
 
   /**
@@ -105,8 +115,14 @@ class Command_CLI
     // sample command line
     echo 'php ' . $argv[0] . ' ' . $help['usage_fmt']."\n\n";
 
+    $options = array_merge($help['options'], array(
+      'v'     => 'Verbose mode (off by default)',
+      'app'   => 'Sets CORE_APP (defaults to "'.DEFAULT_APP.'")',
+      'env'   => 'Sets CORE_ENVIRONMENT (defaults to "'.DEFAULT_ENV.'")'
+    ));
+
     // print out list of flags
-    foreach ($help['options'] as $optFlag => $optDesc)
+    foreach ($options as $optFlag => $optDesc)
     {
       $align  = max(COL_ALIGN - strlen(OPT_PREFIX) - strlen($optFlag), 1);
 
@@ -116,8 +132,6 @@ class Command_CLI
       echo OPT_PREFIX.$optFlag.str_repeat(' ', $align).$optDesc."\n";
     }
 
-    // add the verbose flag to the list
-    echo "\n".OPT_PREFIX.'v'.str_repeat(' ', COL_ALIGN - strlen(OPT_PREFIX) - 1).'Verbose mode (off by default)'."\n";
   }
 
   /**

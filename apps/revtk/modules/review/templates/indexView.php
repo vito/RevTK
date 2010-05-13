@@ -6,7 +6,7 @@
   <div class="col-main col-box">
 
     <div class="app-header">
-      <h2><?php echo link_to('Home','@homepage') ?> <span>&raquo;</span> Review flashcards</h2>
+      <h2><?php echo link_to('Home','home/index') ?> <span>&raquo;</span> Review flashcards</h2>
       <div class="clear"></div>
     </div>
 

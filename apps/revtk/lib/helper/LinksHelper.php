@@ -41,3 +41,22 @@ function link_to_keyword($sKeyword, $sKanjiId = '', $options = array())
   
   return link_to($sKeyword, '@study_edit?id='.$sKanjiId, $options);
 }
+
+/**
+ * Helper which creates a link to the community forum.
+ * 
+ * Arguments meanings are similar to link_to() but the url should be
+ * a plain url, relative to the forum domain. The forum base url is
+ * defined in settings.php
+ *
+ * @param string  $text     Link label, cf. link_to()
+ * @param string  $rel_url  Url relative to base forum url, must begin with "/"
+ *
+ * @return string   Link tag
+ */
+function link_to_forum($text, $rel_url, $options = array())
+{
+  $url = coreConfig::get('app_forum_url') . $rel_url;
+  return link_to($text, $url, $options);
+}
+

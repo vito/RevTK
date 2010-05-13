@@ -139,11 +139,11 @@ class apiRenderer {
     foreach($boxData as &$card) {
 
       // copy relevant fields
-      $newCard['id']            = $card['id'];
-      $newCard['kanji']         = $card['kanji'];
-      $newCard['onyomi']        = $card['onyomi'];
-      $newCard['lessonNumber']  = $card['lessonnum'];
-      $newCard['strokeCount']   = $card['strokecount'];
+      $newCard['id']            = $card->id;
+      $newCard['kanji']         = $card->kanji;
+      $newCard['onyomi']        = $card->onyomi;
+      $newCard['lessonNumber']  = $card->lessonnum;
+      $newCard['strokeCount']   = $card->strokecount;
 
       // add the card to the card holder
       $newCardHolder[] = $newCard;
